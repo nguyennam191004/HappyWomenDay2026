@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clickHint = document.getElementById('clickHint');
     const musicControl = document.getElementById('musicControl');
     const bgMusic = document.getElementById('bgMusic');
-    const butterfliesLayer = document.getElementById('butterfliesLayer');
+    const flowersLayer = document.getElementById('flowersLayer');
     const canvas = document.getElementById('petalCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -105,63 +105,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. ĐÀN BƯỚM 3D DẬP DÌU CÁNH
+    // 3. CƠN MƯA HOA RƠI 3D KHI MỞ THIỆP
     // ==========================================
-    let butterflies = [];
+    let fallingFlowers = [];
+    const flowerIcons = ['🌸', '🌺', '🌷', '🌹', '🌼', '💐', '🌻'];
 
-    function spawnButterflies() {
-        clearButterflies();
-        const count = 4;
+    function spawnFlowerShower() {
+        clearFlowerShower();
+        const count = window.innerWidth < 768 ? 20 : 32;
+
         for (let i = 0; i < count; i++) {
-            const bf = document.createElement('div');
-            bf.className = 'butterfly';
-            bf.innerHTML = `
-                <div class="wings">
-                    <div class="wing-left"></div>
-                    <div class="wing-right"></div>
-                </div>
-            `;
+            const fl = document.createElement('div');
+            fl.className = 'falling-flower';
+            fl.textContent = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
 
-            const startX = Math.random() * (window.innerWidth * 0.8) + window.innerWidth * 0.1;
-            const startY = window.innerHeight + 50;
-            const targetX = startX + (Math.random() - 0.5) * 300;
-            const targetY = Math.random() * (window.innerHeight * 0.5) + 80;
-            const scale = Math.random() * 0.4 + 0.8;
+            const startX = Math.random() * window.innerWidth;
+            const startY = -Math.random() * 300 - 40;
+            const size = Math.random() * 18 + 20; // 20px - 38px
+            const speedY = Math.random() * 1.8 + 1.2;
+            const swingSpeed = Math.random() * 0.03 + 0.015;
+            const swingAmp = Math.random() * 2.5 + 1.2;
+            const rotSpeed = (Math.random() - 0.5) * 3;
 
-            bf.style.left = `${startX}px`;
-            bf.style.top = `${startY}px`;
-            bf.style.transform = `scale(${scale})`;
-            butterfliesLayer.appendChild(bf);
+            fl.style.fontSize = `${size}px`;
+            flowersLayer.appendChild(fl);
 
-            butterflies.push({
-                element: bf,
+            fallingFlowers.push({
+                element: fl,
                 x: startX,
                 y: startY,
-                targetX: targetX,
-                targetY: targetY,
-                speed: Math.random() * 0.02 + 0.015,
-                angle: 0
+                speedY: speedY,
+                swing: Math.random() * Math.PI * 2,
+                swingSpeed: swingSpeed,
+                swingAmp: swingAmp,
+                rotation: Math.random() * 360,
+                rotSpeed: rotSpeed
             });
         }
     }
 
-    function updateButterflies() {
-        butterflies.forEach(bf => {
-            bf.angle += 0.05;
-            bf.x += (bf.targetX - bf.x) * bf.speed + Math.sin(bf.angle) * 1.5;
-            bf.y += (bf.targetY - bf.y) * bf.speed + Math.cos(bf.angle) * 1.2;
+    function updateFallingFlowers() {
+        for (let i = 0; i < fallingFlowers.length; i++) {
+            const f = fallingFlowers[i];
+            f.y += f.speedY;
+            f.swing += f.swingSpeed;
+            f.x += Math.sin(f.swing) * f.swingAmp;
+            f.rotation += f.rotSpeed;
 
-            const tilt = Math.sin(bf.angle) * 15;
-            bf.element.style.left = `${bf.x}px`;
-            bf.element.style.top = `${bf.y}px`;
-            bf.element.style.transform = `rotate(${tilt}deg)`;
-        });
+            // Khi hoa rơi qua đáy màn hình thì reset lên lại đỉnh để tạo cơn mưa hoa liên tục
+            if (f.y > window.innerHeight + 50) {
+                f.y = -Math.random() * 120 - 30;
+                f.x = Math.random() * window.innerWidth;
+            }
+
+            f.element.style.transform = `translate3d(${f.x}px, ${f.y}px, 0) rotate(${f.rotation}deg)`;
+        }
     }
 
-    function clearButterflies() {
-        butterflies = [];
-        if (butterfliesLayer) {
-            butterfliesLayer.innerHTML = '';
+    function clearFlowerShower() {
+        fallingFlowers = [];
+        if (flowersLayer) {
+            flowersLayer.innerHTML = '';
         }
     }
 
@@ -184,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Bắn chùm pháo hoa rực rỡ trực tiếp phía trước bức thư
             launchFireworksCluster();
 
-            // Thả đàn bướm 3D bay lên
-            spawnButterflies();
+            // Thả cơn mưa hoa rơi 3D
+            spawnFlowerShower();
 
             // Bắn tim bung xõa
             burstHearts(window.innerWidth / 2, window.innerHeight / 2, 25);
@@ -208,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeLetter() {
         letterModal.classList.remove('active');
-        clearButterflies();
+        clearFlowerShower();
 
         // Tạm dừng nhạc khi đóng thư lại
         if (bgMusic && !bgMusic.paused) {
@@ -244,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 5. HIỆU ỨNG BẮN TIM & SPARKLES
     // ==========================================
-    const heartEmojis = ['💖', '💕', '🌸', '💐', '✨', '🌷', '💝', '🌹', '🦋'];
+    const heartEmojis = ['💖', '💕', '🌸', '💐', '✨', '🌷', '💝', '🌹', '🌼', '🌺'];
 
     function createFloatingHeart(x, y) {
         const heart = document.createElement('div');
@@ -659,8 +663,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 3. Cập nhật đàn bướm 3D
-        updateButterflies();
+        // 3. Cập nhật cơn mưa hoa rơi 3D
+        updateFallingFlowers();
 
         requestAnimationFrame(animate);
     }
