@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Ngày Phụ Nữ Việt Nam 20/10 💖</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Custom Glowing Cursor Follower -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Background Canvas for Falling Rose Petals & Sparkling Hearts -->
+    <canvas id="petalCanvas"></canvas>
+
+    <!-- Audio / Music Controller -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    <div class="music-control" id="musicControl" title="Bật/Tắt nhạc nền">
+        <div class="music-icon">
+            <span class="bar bar-1"></span>
+            <span class="bar bar-2"></span>
+            <span class="bar bar-3"></span>
+            <span class="bar bar-4"></span>
+        </div>
+        <span class="music-text">Âm nhạc</span>
+    </div>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Greeting Header -->
+        <header class="header">
+            <div class="badge">20.10 • Ngày Phụ Nữ Việt Nam</div>
+            <h1 class="sparkle-title">Happy Vietnamese Women's Day</h1>
+            <p class="subtitle">Có một phong thư đặc biệt gửi đến bạn...</p>
+        </header>
+
+        <!-- Envelope Section -->
+        <div class="envelope-scene" id="envelopeScene">
+            <!-- Pulsing hint tooltip -->
+            <div class="click-hint" id="clickHint">
+                <span class="pulse-icon">👆</span> Nhấn vào lá thư để mở điều bất ngờ!
+            </div>
+
+            <div class="envelope-wrapper" id="envelopeWrapper">
+                <div class="envelope">
+                    <!-- Flap of Envelope (Nắp phong bì mở lên) -->
+                    <div class="flap top-flap"></div>
+
+                    <!-- Mini Preview Letter inside Envelope -->
+                    <div class="letter-preview">
+                        <div class="preview-line line-1"></div>
+                        <div class="preview-line line-2"></div>
+                        <div class="preview-line line-3"></div>
+                    </div>
+
+                    <!-- Pockets Container with rounded corners -->
+                    <div class="envelope-pockets">
+                        <div class="pocket side-left"></div>
+                        <div class="pocket side-right"></div>
+                        <div class="pocket bottom-flap"></div>
+                    </div>
+
+                    <!-- Wax Seal Badge (Con dấu sáp) -->
+                    <div class="wax-seal" id="waxSeal">
+                        <div class="seal-inner">
+                            <span>20/10</span>
+                            <span class="heart-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pop-up Expanded Letter Modal -->
+        <div class="modal-overlay" id="letterModal">
+            <!-- Vòng hào quang ánh sáng xoay tròn ma thuật phía sau thiệp -->
+            <div class="magic-glow"></div>
+
+            <!-- Đàn bướm 3D dập dìu cánh khi mở thiệp -->
+            <div class="butterflies-layer" id="butterfliesLayer"></div>
+
+            <div class="letter-card">
+                <!-- Floral corner decorations -->
+                <div class="flower-deco top-left">🌺</div>
+                <div class="flower-deco top-right">🌸</div>
+                <div class="flower-deco bottom-left">🌸</div>
+                <div class="flower-deco bottom-right">🌺</div>
+
+                <!-- Letter Header -->
+                <div class="letter-stamp">
+                    <span class="stamp-heart">💌</span>
+                    <span class="stamp-text">SPECIAL FOR YOU</span>
+                </div>
+
+                <div class="letter-content">
+                    <h2 class="card-title">🌸</h2>
+
+                    <div class="card-divider">
+                        <span class="divider-line"></span>
+                        <span class="divider-icon">❦</span>
+                        <span class="divider-line"></span>
+                    </div>
+
+                    <div class="message-body" id="messageBody">
+                        <p class="greeting-para stagger-item">
+                            Nhân ngày <strong>Phụ Nữ Việt Nam 20/10</strong>, xin gửi tới bạn ngàn lời chúc tốt đẹp,
+                            ngọt ngào và tràn ngập niềm vui nhất! ✨
+                        </p>
+                        <p class="wish-item stagger-item">
+                            🌷 <strong>Luôn rạng rỡ và xinh đẹp:</strong> Chúc bạn luôn giữ mãi nụ cười tươi tắn trên
+                            môi, tự tin tỏa sáng rực rỡ theo cách riêng của mình.
+                        </p>
+                        <p class="wish-item stagger-item">
+                            💖 <strong>Luôn an yên và hạnh phúc:</strong> Mong mỗi ngày trôi qua với bạn đều dịu dàng,
+                            bình an và ngập tràn tình yêu thương từ những người bên cạnh.
+                        </p>
+                        <p class="wish-item stagger-item">
+                            🌟 <strong>Thành công trên mọi con đường:</strong> Chúc cho những ước mơ, hoài bão và dự
+                            định của bạn đều sớm trở thành hiện thực rực rỡ.
+                        </p>
+                        <p class="closing-para stagger-item">
+                            Cảm ơn vì bạn đã có mặt trên cuộc đời này và mang lại thật nhiều điều dịu dàng, ấm áp cho
+                            thế giới xung quanh!
+                        </p>
+                    </div>
+
+                    <div class="letter-signature stagger-item">
+                        <p class="sign-tag">Mãi luôn yêu thương & trân trọng,</p>
+                        <p class="sign-name">Happy Vietnamese Women's Day 🌹</p>
+                    </div>
+
+                    <!-- Interactive Buttons -->
+                    <div class="card-actions stagger-item">
+                        <button class="btn btn-close" id="btnCloseLetter">
+                            <span>Đóng & Xem lại</span> ✉️
+                        </button>
+                        <button class="btn btn-firework" id="btnFirework">
+                            <span>Pháo hoa rực rỡ</span> 🎆
+                        </button>
+                        <button class="btn btn-heart" id="btnSendHearts">
+                            <span>Bắn tim yêu thương</span> 💕
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Foreground Canvas for Confetti & Fireworks directly over the Letter -->
+    <canvas id="fxCanvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
